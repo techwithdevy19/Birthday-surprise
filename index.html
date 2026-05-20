@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎂 Birthday Wishes</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Background video/image -->
+  <div class="bg-overlay"></div>
+  <video class="bg-video" autoplay muted loop playsinline>
+    <source src="bg.mp4" type="video/mp4">
+  </video>
+  <img class="bg-img" src="bg.png" alt="" />
+
+  <!-- Background Music -->
+  <audio id="bgMusic" src="bg.mp3" loop preload="auto"></audio>
+
+  <!-- Floating particles canvas removed -->
+
+  <!-- ===================== ONBOARDING SCREEN ===================== -->
+  <div id="onboarding" class="screen active">
+    <div class="onboard-card glass">
+      <div class="onboard-icon">🎂</div>
+      <h1 class="onboard-title">Birthday<br/><span>Wishes</span></h1>
+      <p class="onboard-sub">Create a magical birthday experience for your favourite person</p>
+
+      <div class="input-group">
+        <label>Their Name</label>
+        <input type="text" id="inputName" placeholder="e.g. Priya, Rahul, Aanya…" maxlength="30" autocomplete="off"/>
+      </div>
+
+      <div class="input-group">
+        <label>Date of Birth</label>
+        <input type="date" id="inputDOB" />
+      </div>
+
+      <div class="input-group">
+        <label>Upload 4 Photos 📸</label>
+        <label class="photo-upload-label" for="photoUploadInput">
+          <span class="photo-upload-icon">📁</span>
+          <span id="uploadLabel">Choose up to 4 photos from your device</span>
+          <input type="file" id="photoUploadInput" accept="image/*" multiple onchange="handlePhotoUploads(this)" style="display:none;" />
+        </label>
+        <div class="upload-previews">
+          <img class="upload-preview-img" src="" alt="" style="display:none;" />
+          <img class="upload-preview-img" src="" alt="" style="display:none;" />
+          <img class="upload-preview-img" src="" alt="" style="display:none;" />
+          <img class="upload-preview-img" src="" alt="" style="display:none;" />
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btnStart" onclick="startWishing()">
+        <span>Let's Celebrate</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+
+      <p class="privacy-note">✨ Everything stays in your browser — private & personal</p>
+    </div>
+  </div>
+
+  <!-- ===================== MAIN WISH PAGE ===================== -->
+  <div id="mainPage" class="screen">
+
+    <!-- NAV -->
+    <nav class="navbar glass">
+      <div class="nav-logo">🎉 <span id="navName"></span>'s Day</div>
+      <div class="nav-links">
+        <a href="#home" class="nav-link active" data-section="home">Home</a>
+        <a href="#gallery" class="nav-link" data-section="gallery">Gallery</a>
+        <a href="#note" class="nav-link" data-section="note">Love Note</a>
+        <a href="#wishes" class="nav-link" data-section="wishes">Wishes</a>
+      </div>
+      <button class="hamburger" id="hamburger">☰</button>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu glass" id="mobileMenu">
+      <a href="#home" onclick="closeMobileMenu()">🏠 Home</a>
+      <a href="#gallery" onclick="closeMobileMenu()">🖼 Gallery</a>
+      <a href="#note" onclick="closeMobileMenu()">💌 Love Note</a>
+      <a href="#wishes" onclick="closeMobileMenu()">🌟 Wishes</a>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="section hero-section">
+      <div class="confetti-burst" id="confettiBurst"></div>
+
+      <div class="hero-content">
+        <div class="hb-heading" id="hbHeading">
+          <span class="hb-happy">Happy</span>
+          <span class="hb-birthday">Birthday</span>
+          <span class="hb-name-display" id="hbNameDisplay"></span>
+        </div>
+        <div class="age-badge glass" id="ageBadge"></div>
+        <p class="hero-sub">✨ Today is all about</p>
+        <h1 class="hero-name" id="heroName"></h1>
+        <p class="hero-tagline" id="heroTagline"></p>
+        <div class="hero-date glass" id="heroDate"></div>
+
+        <div class="hero-btns">
+          <button class="btn-primary celebrate-btn" id="celebrateBtn" onclick="triggerCelebrate()">🎊 Celebrate!</button>
+          <button class="btn-outline" onclick="openGalleryShow()">View Gallery</button>
+        </div>
+      </div>
+
+      <div class="floating-emojis" id="floatingEmojis"></div>
+    </section>
+
+    <!-- GALLERY SECTION (GIFs — repositioned) -->
+    <section id="gallery" class="section gallery-section">
+      <div class="section-header">
+        <span class="section-tag">✨ Moments</span>
+        <h2 class="section-title">Birthday <em>Gallery</em></h2>
+        <p class="section-desc">A little world built just for <span class="dynamic-name"></span></p>
+      </div>
+
+      <!-- GIFs scattered, not a grid -->
+      <div class="gif-scattered">
+        <div class="gif-card glass gif-pos-1">
+          <img src="assets/gif1.gif" alt="Birthday GIF 1" class="gif-img" />
+          <div class="gif-caption">Celebrate! 🎉</div>
+        </div>
+        <div class="gif-card glass gif-pos-2">
+          <img src="assets/gif2.gif" alt="Birthday GIF 2" class="gif-img" />
+          <div class="gif-caption">You're Amazing 🌟</div>
+        </div>
+        <div class="gif-card glass gif-pos-3">
+          <img src="assets/gif3.gif" alt="Birthday GIF 3" class="gif-img" />
+          <div class="gif-caption">Keep Shining ✨</div>
+        </div>
+        <div class="gif-card glass gif-pos-4">
+          <img src="assets/gif4.gif" alt="Birthday GIF 4" class="gif-img" />
+          <div class="gif-caption">Stay Awesome 🎂</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOVE NOTE SECTION -->
+    <section id="note" class="section note-section">
+      <div class="section-header">
+        <span class="section-tag">💌 From the heart</span>
+        <h2 class="section-title">A Special <em>Note</em></h2>
+      </div>
+
+      <div class="note-container">
+        <div class="note-card glass">
+          <div class="note-decoration">❝</div>
+          <p class="note-text" id="noteText"></p>
+          <div class="note-sig" id="noteSig"></div>
+          <div class="note-hearts">
+            <span>💖</span><span>💕</span><span>💗</span>
+          </div>
+        </div>
+
+        <div class="note-edit-panel glass">
+          <h3>✏️ Personalise Your Note</h3>
+          <textarea id="customNote" placeholder="Write your personal message here…" rows="5"></textarea>
+          <button class="btn-primary small" onclick="saveNote()">Save Note 💾</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- WISHES SECTION -->
+    <section id="wishes" class="section wishes-section">
+      <div class="section-header">
+        <span class="section-tag">🌟 For You</span>
+        <h2 class="section-title">Birthday <em>Wishes</em></h2>
+        <p class="section-desc">Sending all the love to <span class="dynamic-name"></span></p>
+      </div>
+
+      <div class="wishes-grid" id="wishesGrid"></div>
+    </section>
+
+    <!-- FEATURES -->
+    <!-- ===== FEATURE 2: BLOW OUT CANDLES ===== -->
+    <section class="section candles-section" id="candlesSection">
+      <div class="section-header">
+        <span class="section-tag">🕯️ Make It Special</span>
+        <h2 class="section-title">Blow Out the <em>Candles</em></h2>
+        <p class="section-desc">Click each candle or use your mic to blow!</p>
+      </div>
+      <div class="cake-wrap">
+        <canvas id="cakeCanvas" width="420" height="380" style="border-radius:20px;cursor:pointer;" title="Click candles to blow them out!"></canvas>
+        <div class="mic-btn-wrap">
+          <button class="btn-outline mic-btn" id="micBtn" onclick="startMicBlow()">🎤 Use Mic to Blow</button>
+          <p class="mic-hint" id="micHint"></p>
+        </div>
+        <div class="candle-msg" id="candleMsg"></div>
+      </div>
+      <!-- Hidden elements for compatibility -->
+      <div id="candlesRow" style="display:none;"></div>
+    </section>
+
+    <!-- ===== FEATURE 4: AGE IN FUN STATS ===== -->
+    <section class="section stats-section" id="statsSection">
+      <div class="section-header">
+        <span class="section-tag">⏳ Your Life So Far</span>
+        <h2 class="section-title">Age in <em>Fun Stats</em></h2>
+        <p class="section-desc">Live counting since the moment you were born</p>
+      </div>
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card glass"><div class="stat-icon">❤️</div><div class="stat-val" id="statHeartbeats">0</div><div class="stat-label">Heartbeats</div></div>
+        <div class="stat-card glass"><div class="stat-icon">🌬️</div><div class="stat-val" id="statBreaths">0</div><div class="stat-label">Breaths Taken</div></div>
+        <div class="stat-card glass"><div class="stat-icon">⏰</div><div class="stat-val" id="statHours">0</div><div class="stat-label">Hours Lived</div></div>
+        <div class="stat-card glass"><div class="stat-icon">📅</div><div class="stat-val" id="statDays">0</div><div class="stat-label">Days on Earth</div></div>
+        <div class="stat-card glass"><div class="stat-icon">😴</div><div class="stat-val" id="statSleep">0</div><div class="stat-label">Hours of Sleep</div></div>
+        <div class="stat-card glass"><div class="stat-icon">😂</div><div class="stat-val" id="statLaughs">0</div><div class="stat-label">Times Laughed</div></div>
+      </div>
+    </section>
+
+    <!-- ===== FEATURE 6: MYSTERY GIFT BOX ===== -->
+    <section class="section gift-section" id="giftSection">
+      <div class="section-header">
+        <span class="section-tag">🎁 Surprise!</span>
+        <h2 class="section-title">Open Your <em>Gift</em></h2>
+        <p class="section-desc">Tap the box to unwrap your surprise</p>
+      </div>
+      <div class="gift-wrap" id="giftWrap">
+        <canvas id="giftCanvas" width="320" height="340" style="border-radius:20px;cursor:pointer;" onclick="openGift()" title="Tap to open your gift!"></canvas>
+        <div class="gift-burst" id="giftBurst"></div>
+        <div class="gift-message glass" id="giftMessage"></div>
+      </div>
+      <!-- Hidden elements for compatibility -->
+      <div id="giftBox" style="display:none;"><div id="giftLid"></div></div>
+    </section>
+
+    <!-- ===== FEATURE 8: BIRTHDAY FORTUNE TELLER ===== -->
+    <section class="section fortune-section" id="fortuneSection">
+      <div class="section-header">
+        <span class="section-tag">🔮 The Universe Speaks</span>
+        <h2 class="section-title">Birthday <em>Fortune</em></h2>
+        <p class="section-desc">Tap the crystal ball to reveal your destiny</p>
+      </div>
+      <div class="crystal-wrap">
+        <div class="crystal-ball" id="crystalBall" onclick="revealFortune()">
+          <div class="crystal-inner">
+            <div class="crystal-smoke" id="crystalSmoke"></div>
+            <div class="crystal-text" id="crystalText">✨</div>
+          </div>
+          <div class="crystal-shine"></div>
+        </div>
+        <div class="fortune-result glass" id="fortuneResult"></div>
+      </div>
+    </section>
+
+    <!-- ===== FEATURE 10: ZODIAC & STAR MAP ===== -->
+    <section class="section zodiac-section" id="zodiacSection">
+      <div class="section-header">
+        <span class="section-tag">🌙 Written in the Stars</span>
+        <h2 class="section-title">Your <em>Zodiac</em></h2>
+        <p class="section-desc">The cosmos has a message for you</p>
+      </div>
+      <div class="zodiac-wrap">
+        <div class="zodiac-card glass" id="zodiacCard">
+          <canvas class="star-canvas" id="starCanvas" width="300" height="300"></canvas>
+          <div class="zodiac-info">
+            <div class="zodiac-symbol" id="zodiacSymbol"></div>
+            <div class="zodiac-name" id="zodiacName"></div>
+            <div class="zodiac-dates" id="zodiacDates"></div>
+            <div class="zodiac-traits" id="zodiacTraits"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHARE PANEL -->
+    <div class="share-panel-wrapper">
+      <div class="share-panel glass">
+        <h3>📤 Share This Page</h3>
+        <p>Copy the link below and send it to <span class="dynamic-name"></span>!</p>
+        <div class="share-url-box">
+          <span id="shareUrl"></span>
+          <button onclick="copyLink()" class="btn-copy">Copy 📋</button>
+        </div>
+        <div class="social-btns">
+          <button onclick="shareWA()" class="btn-social wa">WhatsApp 💬</button>
+          <button onclick="shareTelegram()" class="btn-social tg">Telegram ✈️</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-hearts">💖 Made with love 💖</div>
+      <p class="footer-credit">
+        <span class="credit-powered">powered by</span>
+        <span class="credit-handle">@Just.rahul.dev</span>
+      </p>
+    </footer>
+
+  </div><!-- end mainPage -->
+
+  <!-- ===================== GALLERY PHOTO SHOW OVERLAY ===================== -->
+  <div id="galleryOverlay" class="gallery-overlay" style="display:none;">
+    <div class="gallery-overlay-bg"></div>
+    <div class="gallery-show-wrap">
+      <img id="galleryShowImg" class="gallery-show-img" src="" alt="" />
+      <div class="gallery-show-counter" id="galleryCounter"></div>
+    </div>
+  </div>
+
+  <!-- CONFETTI CANVAS removed -->
+
+  <!-- TOAST -->
+  <div id="toast" class="toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="confetti.js"></script>
+  <!-- particles.js removed -->
+  <script src="script.js"></script>
+  <script src="threescenes.js"></script>
+</body>
+</html>
